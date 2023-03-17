@@ -1,7 +1,7 @@
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 
 const App = () => {
@@ -14,20 +14,37 @@ const App = () => {
   const [filter, setFilter] = useState('');
   const [contactsFilter, setContactsFilter] = useState([]);
 
-  const formSubmitHandler = data => {};
+  const formSubmitHandler = data => {
+    // contactsFilter.splice(0, contactsFilter.length);
+    setContactsFilter(state => []);
+    const findElem = contacts.filter(
+      contact => contact.name.toUpperCase() === data.name.toUpperCase()
+    );
+    if (findElem.length > 0) {
+      alert(data.name + ' is already in contacts.');
+      return;
+    }
+    const newObj = { id: nanoid(), name: data.name, number: data.number };
+    setContacts(state => [...state, newObj]);
+  };
 
   const handleFilterChange = e => {
-    //  this.contactsFilter.splice(0, this.contactsFilter.length);
-    // const { name, value } = e.target;
+    //  contactsFilter.splice(0, contactsFilter.length);
+    setContactsFilter(state => []);
+    //   const { name, value } = e.target;
+    const value = e.currentTarget.value;
+    setFilter(state => value);
+    console.log(filter);
     // this.setState({ [name]: value });
-    // const filterArray = this.state.contacts.filter(contact =>
-    //   contact.name.toUpperCase().includes(value.toUpperCase())
-    // );
-    //if (filterArray.length > 0) {
-    //  for (const i of filterArray) {
-    //    this.contactsFilter.push(i);
-    //  }
-    //}
+    const filterArray = contacts.filter(contact =>
+      contact.name.toUpperCase().includes(filter.toUpperCase())
+    );
+    if (filterArray.length > 0) {
+      for (const i of filterArray) {
+        setContactsFilter(state => [...state, i]);
+        //contactsFilter.push(i);
+      }
+    }
   };
 
   const handleDeleteContact = el => {
