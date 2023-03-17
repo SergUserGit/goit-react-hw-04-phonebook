@@ -11,11 +11,10 @@ const App = () => {
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]);
-  const [filter, setFilter] = useState('');
+
   const [contactsFilter, setContactsFilter] = useState([]);
 
   const formSubmitHandler = data => {
-    // contactsFilter.splice(0, contactsFilter.length);
     setContactsFilter(state => []);
     const findElem = contacts.filter(
       contact => contact.name.toUpperCase() === data.name.toUpperCase()
@@ -29,39 +28,31 @@ const App = () => {
   };
 
   const handleFilterChange = e => {
-    //  contactsFilter.splice(0, contactsFilter.length);
     setContactsFilter(state => []);
-    //   const { name, value } = e.target;
-    const value = e.currentTarget.value;
-    setFilter(state => value);
-    console.log(filter);
-    // this.setState({ [name]: value });
+    const { value: filterContact } = e.target;
     const filterArray = contacts.filter(contact =>
-      contact.name.toUpperCase().includes(filter.toUpperCase())
+      contact.name.toUpperCase().includes(filterContact.toUpperCase())
     );
     if (filterArray.length > 0) {
       for (const i of filterArray) {
         setContactsFilter(state => [...state, i]);
-        //contactsFilter.push(i);
       }
     }
   };
 
   const handleDeleteContact = el => {
-    //  this.contactsFilter.splice(0, this.contactsFilter.length);
-    //  const findElement = this.state.contacts.find(
-    //    findEl => findEl.id === el.target.dataset.id
-    //  );
-    //  if (findElement !== undefined) {
-    //    const indexElement = this.state.contacts.indexOf(findElement);
-    //    if (indexElement !== -1) {
-    // this.setState(prevState => ({
-    //  contacts: prevState.contacts.filter(
-    //    elem => elem.id !== el.target.dataset.id
-    //   ),
-    //   }));
-    //   }
-    //  }
+    setContactsFilter(state => []);
+    const findElement = contacts.find(
+      findEl => findEl.id === el.target.dataset.id
+    );
+    if (findElement !== undefined) {
+      const indexElement = contacts.indexOf(findElement);
+      if (indexElement !== -1) {
+        setContacts(state =>
+          state.filter(elem => elem.id !== el.target.dataset.id)
+        );
+      }
+    }
   };
 
   return (

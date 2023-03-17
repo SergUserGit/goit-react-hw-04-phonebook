@@ -13,7 +13,6 @@ const ContactForm = ({ onSubmit }) => {
     } else {
       setNumber(state => value);
     }
-    // console.log(name, number);
   };
 
   const handleSubmit = evt => {
